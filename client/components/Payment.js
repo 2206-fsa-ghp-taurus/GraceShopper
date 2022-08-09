@@ -4,7 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import {Route, Redirect} from 'react-router-dom';
 import {emptyCart} from '../store/cart'
-import {FRONTENDKEY} from '../../webkeys_sheryl.js';
+import {FRONTENDKEY} from '../../webkeys.js';
 
 class Checkout extends React.Component {
   constructor() {
