@@ -24,7 +24,7 @@ class SingleProduct extends Component {
 
     handleAdd() {
       this.props.addToCart(this.props.product, this.state.totalQuantity);
-      alert('item added to cart')
+      // alert('item added to cart')
     }
 
     render() {

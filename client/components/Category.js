@@ -11,7 +11,7 @@ class Category extends Component {
 
   handleAdd(product, quantity) {
     this.props.addToCart(product, quantity);
-    alert('item added to cart');
+    // alert('item added to cart');
   }
 
   render() {
