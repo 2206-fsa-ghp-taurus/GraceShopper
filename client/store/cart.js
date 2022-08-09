@@ -135,26 +135,63 @@ export const removeFromCart = (id) => {
   }
 };
 
+// // Empty Cart after checkout
+// export const emptyCart = (cart) => {
+//   return async (dispatch) => {
+//     try {
+//       const token = window.localStorage.getItem('token') // will always have token 
+//       if (cart.id) { // a user who have been logged in the whole time 
+//         const {data} = await axios.put(`/api/cart/confirmation`, cart, {
+//           headers: {
+//             authorization: token,
+//           }
+//         });
+//         dispatch(emptyTheCart(data))
+//       } else{  // guest who signed up/ logged in just now 
+//         window.localStorage.setItem('cart', JSON.stringify({products: []}))
+//         const {data} = await axios.put(`/api/cart/confirmation`, cart,{
+//           headers: {
+//             authorization: token,
+//           }
+//         });
+//         dispatch(emptyTheCart(data))
+//       }
+//     } catch (err){
+//       console.log(err);
+//     }
+//   }
+// };
+
 // Empty Cart after checkout
 export const emptyCart = (cart) => {
   return async (dispatch) => {
     try {
-      const token = window.localStorage.getItem('token') // will always have token 
-      if (cart.id) { // a user who have been logged in the whole time 
-        const {data} = await axios.put(`/api/cart/confirmation`, cart, {
-          headers: {
-            authorization: token,
+      const token = window.localStorage.getItem('token') 
+      if (token){
+          if (cart.id) { // a user who have been logged in the whole time 
+            const {data} = await axios.put(`/api/cart/confirmation`, cart, {
+              headers: {
+                authorization: token,
+              }
+            });
+            dispatch(emptyTheCart(data));
+          } else{  // guest who  logged in just now 
+            window.localStorage.setItem('cart', JSON.stringify({products: []}))
+            const {data} = await axios.put(`/api/cart/confirmation`, cart,{
+              headers: {
+                authorization: token,
+              }
+            });
+            dispatch(emptyTheCart(data));
           }
-        });
-        dispatch(emptyTheCart(data))
-      } else{  // guest who signed up/ logged in just now 
-        window.localStorage.setItem('cart', JSON.stringify({products: []}))
-        const {data} = await axios.put(`/api/cart/confirmation`, cart,{
-          headers: {
-            authorization: token,
-          }
-        });
-        dispatch(emptyTheCart(data))
+      } else {
+          window.localStorage.setItem('cart', JSON.stringify({products: []}))
+          const {data} = await axios.put(`/api/cart/confirmation`, cart,{
+            headers: {
+              authorization: 'guest',
+            }
+          });
+          dispatch(emptyTheCart(data))
       }
     } catch (err){
       console.log(err);
